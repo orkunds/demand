@@ -769,7 +769,7 @@ elif sayfa == "🏭 Üretim & Stok":
 st.markdown("---")
 st.markdown(
     "<p style='text-align:center;color:#aaa;font-size:12px;'>"
-    "Kastamonu Entegre MDF | Satış Talep Tahmin Paneli | 2023–2024 Sentetik Veri Seti"
+    "Kastamonu Entegre MDF | Satış Talep Tahmin Paneli "
     "</p>",
     unsafe_allow_html=True
 )
