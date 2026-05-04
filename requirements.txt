@@ -7,3 +7,5 @@ scikit-learn
 statsmodels
 matplotlib
 seaborn
+prophet
+torch
