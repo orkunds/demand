@@ -628,11 +628,12 @@ elif sayfa == "🤖 Modeller":
     st.markdown("#### 📊 Model Performans Karşılaştırması (Test Seti)")
     met_df = pd.DataFrame(metrics_dict).T.round(2)
     met_df.index.name = "Model"
-    met_df = met_df.reset_index()
 
-    best_mape = met_df["MAPE"].dropna().idxmin() if met_df["MAPE"].notna().any() else None
-    met_df["⭐"] = met_df.index.map(lambda i: "✅ En İyi" if i == best_mape else "")
-    met_df["⭐"] = met_df.index.map(lambda i: "✅ En İyi" if i == best_mape else "")
+# reset_index öncesi, index üzerinde çalış:
+    best_model = met_df["MAPE"].dropna().idxmin() if met_df["MAPE"].notna().any() else None
+    met_df["⭐"] = met_df.index.map(lambda m: "✅ En İyi" if m == best_model else "")
+
+    met_df = met_df.reset_index()
     st.dataframe(met_df.style.highlight_min(subset=["MAPE","RMSE","MAE"],
                                              color="#C8E6C9"), use_container_width=True)
 
