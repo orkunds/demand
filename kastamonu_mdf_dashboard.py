@@ -509,7 +509,8 @@ elif sayfa == "🤖 Modeller":
             m.fit(prophet_df)
             future_pr = m.make_future_dataframe(periods=len(test) + tahmin_hafta, freq="W")
             forecast_pr = m.predict(future_pr)
-            test_yhat = forecast_pr[forecast_pr["ds"].isin(test.index)]["yhat"].values
+            test_index_dt = test.index.to_timestamp() if hasattr(test.index, "to_timestamp") else pd.to_datetime(test.index)
+            test_yhat = forecast_pr[forecast_pr["ds"].isin(test_index_dt)]["yhat"].values
             fut_yhat  = forecast_pr.tail(tahmin_hafta)["yhat"].values
             test_len  = min(len(test), len(test_yhat))
             results["Prophet"] = (
