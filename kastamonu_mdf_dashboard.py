@@ -385,11 +385,13 @@ elif sayfa == "🤖 Modeller":
         st.stop()
 
     # Zaman serisini hazırla
-    ts = weekly.set_index("Tarih")["Satis"]
-    ts.index = pd.DatetimeIndex(ts.index)
+    ts = weekly.set_index("Tarih")["Satis"].copy()
+    ts.index = pd.to_datetime(ts.index)
+    ts = ts.sort_index()
+    ts = ts[ts.notna() & (ts > 0)]
     ts = ts.resample("W-MON").sum()
-    ts = ts[ts > 0]  # sıfır olan haftaları temizle
-    ts = ts.interpolate()
+    ts = ts.replace(0, np.nan).interpolate(method="linear")
+    ts = ts.dropna()
 
     train_size = int(len(ts) * 0.8)
     train = ts.iloc[:train_size]
