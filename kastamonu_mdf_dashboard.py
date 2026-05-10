@@ -114,7 +114,7 @@ st.markdown("""
 <div style='background:linear-gradient(90deg,#1B5E20,#388E3C);
      padding:20px 30px;border-radius:10px;margin-bottom:20px;'>
   <h1 style='color:white;margin:0;font-size:28px;'>
-    🌲 Kastamonu Entegre — MDF Satış Talep Tahmin Paneli
+    🌲 MDF Satış Talep Tahmin Paneli
   </h1>
   <p style='color:#C8E6C9;margin:4px 0 0 0;font-size:14px;'>
     2023–2024 Entegre Veri Seti | XGBoost · ARIMA · SARIMA · Prophet · LSTM
