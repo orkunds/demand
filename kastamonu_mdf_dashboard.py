@@ -509,7 +509,11 @@ elif sayfa == "🤖 Modeller":
             m.fit(prophet_df)
             future_pr = m.make_future_dataframe(periods=len(test) + tahmin_hafta, freq="W")
             forecast_pr = m.predict(future_pr)
-            test_index_dt = test.index.to_timestamp() if hasattr(test.index, "to_timestamp") else pd.to_datetime(test.index)
+            test_index_dt = (
+    test.index.to_timestamp() 
+    if hasattr(test.index, "to_timestamp") 
+    else pd.to_datetime(test.index)
+)
             test_yhat = forecast_pr[forecast_pr["ds"].isin(test_index_dt)]["yhat"].values
             fut_yhat  = forecast_pr.tail(tahmin_hafta)["yhat"].values
             test_len  = min(len(test), len(test_yhat))
@@ -517,11 +521,18 @@ elif sayfa == "🤖 Modeller":
                 pd.Series(test_yhat[:test_len], index=test.index[:test_len]),
                 pd.Series(fut_yhat,             index=future_idx)
             )
-            metrics_dict["Prophet"] = {
-                "MAE":  mae(test.values[:test_len], test_yhat[:test_len]),
-                "RMSE": rmse(test.values[:test_len], test_yhat[:test_len]),
-                "MAPE": mape(test.values[:test_len], test_yhat[:test_len]),
-            }
+            if test_len > 0:
+                       metrics_dict["Prophet"] = {
+        "MAE":  mae(test.values[:test_len], test_yhat[:test_len]),
+        "RMSE": rmse(test.values[:test_len], test_yhat[:test_len]),
+        "MAPE": mape(test.values[:test_len], test_yhat[:test_len]),
+    }
+    
+            else:
+                       
+                           st.warning("Prophet: Test tarihleri eşleşmedi, metrik hesaplanamadı.")
+
+                       
         except ImportError:
             st.warning("prophet kurulu değil: `pip install prophet`")
         progress.progress(80)
@@ -619,7 +630,8 @@ elif sayfa == "🤖 Modeller":
     met_df.index.name = "Model"
     met_df = met_df.reset_index()
 
-    best_mape = met_df["MAPE"].idxmin()
+    best_mape = met_df["MAPE"].dropna().idxmin() if met_df["MAPE"].notna().any() else None
+    met_df["⭐"] = met_df.index.map(lambda i: "✅ En İyi" if i == best_mape else "")
     met_df["⭐"] = met_df.index.map(lambda i: "✅ En İyi" if i == best_mape else "")
     st.dataframe(met_df.style.highlight_min(subset=["MAPE","RMSE","MAE"],
                                              color="#C8E6C9"), use_container_width=True)
