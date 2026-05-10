@@ -19,7 +19,7 @@ from plotly.subplots import make_subplots
 
 # ── Sayfa ayarları ──────────────────────────────────────────────────────────
 st.set_page_config(
-    page_title="Kastamonu Entegre — MDF Talep Tahmin Paneli",
+    page_title="MDF Talep Tahmin Paneli",
     page_icon="🌲",
     layout="wide",
     initial_sidebar_state="expanded",
