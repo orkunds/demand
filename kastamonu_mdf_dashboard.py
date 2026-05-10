@@ -1,5 +1,5 @@
 """
-Kastamonu Entegre MDF — Satış Talep Tahmin Dashboard
+MDF — Satış Talep Tahmin Dashboard
 =====================================================
 Modeller: XGBoost | ARIMA | SARIMA | Prophet | LSTM
 Kurulum : pip install streamlit pandas numpy matplotlib plotly scikit-learn
