@@ -629,13 +629,22 @@ elif sayfa == "🤖 Modeller":
     met_df = pd.DataFrame(metrics_dict).T.round(2)
     met_df.index.name = "Model"
 
-# reset_index öncesi, index üzerinde çalış:
-    best_model = met_df["MAPE"].dropna().idxmin() if met_df["MAPE"].notna().any() else None
-    met_df["⭐"] = met_df.index.map(lambda m: "✅ En İyi" if m == best_model else "")
+    if "MAPE" in met_df.columns and met_df["MAPE"].notna().any():
+        best_model = met_df["MAPE"].dropna().idxmin()
+    else:
+        best_model = None
 
+    met_df["⭐"] = met_df.index.map(lambda m: "✅ En İyi" if m == best_model else "")
     met_df = met_df.reset_index()
-    st.dataframe(met_df.style.highlight_min(subset=["MAPE","RMSE","MAE"],
-                                             color="#C8E6C9"), use_container_width=True)
+
+    st.dataframe(
+        met_df.style.highlight_min(
+        subset=[c for c in ["MAPE", "RMSE", "MAE"] if c in met_df.columns],
+        color="#C8E6C9"
+    ),
+        use_container_width=True
+)
+    
 
     # ── Test tahmin grafiği ──────────────────────────────────────────────────
     st.markdown("#### 📈 Test Seti Tahminleri (Gerçek vs Tahmin)")
