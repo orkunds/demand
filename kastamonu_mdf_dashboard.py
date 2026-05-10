@@ -378,6 +378,16 @@ elif sayfa == "📉 Zaman Serisi":
 # ════════════════════════════════════════════════════════════════════════════
 elif sayfa == "🤖 Modeller":
     st.markdown("<div class='section-header'>🤖 Tahmin Modelleri</div>", unsafe_allow_html=True)
+    # BURAYA EKLE ↓
+    st.write("### DEBUG")
+    st.write("results keys:", list(results.keys()))
+    st.write("metrics_dict:", metrics_dict)
+    st.write("ts head:", ts.head())
+    st.write("ts index type:", type(ts.index))
+    st.write("train length:", len(train))
+    st.write("test length:", len(test))
+    # BURAYA KADAR ↑
+       
 
     if not seç_modeller:
         st.warning("Lütfen sol panelden en az bir model seçin.")
